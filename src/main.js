@@ -1,13 +1,16 @@
 import gsap from "gsap";
 
 let viewing = false;
+document.querySelectorAll(".banner .slider .story .bio").forEach((element) => {
+  gsap.to(element, { opacity: 0, duration: 0 });
+});
 
 let sliderTransforms = {value: "rotateX(-15deg) rotateY(0deg) rotateZ(0deg)"}, 
     slider = document.querySelector(".banner .slider");
 
 let carouselRotationAnimation = gsap.to(sliderTransforms, {
     value: "rotateX(-15deg) rotateY(360deg) rotateZ(0deg)",
-    duration: 20,
+    duration: 10,
     repeat: -1, 
     ease: "none",
     onUpdate: () => slider.style.transform = sliderTransforms.value
@@ -19,7 +22,7 @@ function setSpeed(speed) {
 
 slider.addEventListener("mouseenter", () => { 
   if(!viewing){
-    setSpeed(0.3); 
+    setSpeed(0.2); 
   }
 });
 slider.addEventListener("mouseleave", () => { 
@@ -27,7 +30,13 @@ slider.addEventListener("mouseleave", () => {
     setSpeed(1);
   }
 });
-  
+
+function bioAnimation() {
+  document.querySelectorAll(".banner .slider .story .bio").forEach((element) => {
+    gsap.to(element, { opacity: viewing ? 1 : 0, duration: 0.5 });
+  });
+} 
+
 document.querySelectorAll(".banner .slider .story").forEach((element) => {
   const style = window.getComputedStyle(element);
   const position = style.getPropertyValue('--position');
@@ -62,6 +71,8 @@ document.querySelectorAll(".banner .slider .story").forEach((element) => {
           duration: 0.4, 
           filter: "blur(10px)"
         }, '<');
+      
+      bioAnimation();
 
       const handleOutsideClick = (event) => {
         if (!element.contains(event.target)){
@@ -89,6 +100,8 @@ document.querySelectorAll(".banner .slider .story").forEach((element) => {
                 carouselRotationAnimation.play();
               }
             }, '<');
+          
+          bioAnimation();
           
           document.removeEventListener('click', handleOutsideClick);
         }
