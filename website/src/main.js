@@ -22,7 +22,7 @@ const tl = gsap.timeline()
                  ease: "back.out(0.4)",
                  duration: 0.6, 
                  scaleY: 0.03
-               }, '+=2.34')
+               }, '+=2.28')
                .to(loader, { 
                  ease: "back.out(0.4)",
                  duration: 0.6, 
@@ -36,7 +36,7 @@ const tl = gsap.timeline()
 
 
 let viewing = false;
-document.querySelectorAll(".banner .slider .story .bio").forEach((element) => {
+document.querySelectorAll(".banner .slider .active .profile").forEach((element) => {
   gsap.to(element, { opacity: 0, duration: 0 });
 });
 
@@ -76,12 +76,12 @@ slider.addEventListener("mouseleave", () => {
 });
 
 function bioAnimation() {
-  document.querySelectorAll(".banner .slider .story .bio").forEach((element) => {
+  document.querySelectorAll(".banner .slider .active .profile").forEach((element) => {
     gsap.to(element, { opacity: viewing ? 1 : 0, duration: 0.5 });
   });
 } 
 
-document.querySelectorAll(".banner .slider .story").forEach((element) => {
+document.querySelectorAll(".banner .slider .active").forEach((element) => {
   const style = window.getComputedStyle(element);
   const position = style.getPropertyValue('--position');
   const quantity = style.getPropertyValue('--quantity');
@@ -100,7 +100,7 @@ document.querySelectorAll(".banner .slider .story").forEach((element) => {
       const otherCards = [...document.querySelectorAll(".banner .slider .user")].filter(card => card !== element);
       
       const noStory = [...document.querySelectorAll(".banner .slider .user")]
-        .filter(card => !card.classList.contains("story"));
+        .filter(card => !card.classList.contains("active"));
 
       const tl = gsap.timeline()
         .to(sliderTransforms, {
