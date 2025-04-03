@@ -1,5 +1,39 @@
 import gsap from "gsap";
 
+const height = document.documentElement.clientHeight;
+const loader  = document.querySelector(".loader-container");
+
+const tl = gsap.timeline()
+               .to(loader, {
+                 scaleX: 0.001
+               })
+               .to(loader, {
+                 scaleY: 0.001
+               }, '<')
+               .to(loader, {
+                 duration: 1,
+                 scaleY: 3
+               }, '+=0.3')
+               .to(loader, {
+                 duration: 1,
+                 scaleX: 3
+               }, '<')
+               .to(loader, { 
+                 ease: "back.out(0.4)",
+                 duration: 0.6, 
+                 scaleY: 0.03
+               }, '+=2.34')
+               .to(loader, { 
+                 ease: "back.out(0.4)",
+                 duration: 0.6, 
+                 scaleX: 0.03
+               }, '<')
+               .to(loader, {
+                 ease: "back.in(1)",
+                 duration: 0.8, 
+                 y: height + 10
+               }, '<');
+
 let viewing = false;
 document.querySelectorAll(".banner .slider .story .bio").forEach((element) => {
   gsap.to(element, { opacity: 0, duration: 0 });
