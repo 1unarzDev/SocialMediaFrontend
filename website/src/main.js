@@ -34,25 +34,35 @@ const tl = gsap.timeline()
                  y: height + 10
                }, '<');
 
+
 let viewing = false;
 document.querySelectorAll(".banner .slider .story .bio").forEach((element) => {
   gsap.to(element, { opacity: 0, duration: 0 });
 });
 
-let sliderTransforms = {value: "rotateX(-15deg) rotateY(0deg) rotateZ(0deg)"}, 
+let sliderTransforms = {value: "rotateX(-25deg) rotateY(0deg) rotateZ(0deg)"}, 
     slider = document.querySelector(".banner .slider");
 
 let carouselRotationAnimation = gsap.to(sliderTransforms, {
-    value: "rotateX(-15deg) rotateY(360deg) rotateZ(0deg)",
+    value: "rotateX(-25deg) rotateY(360deg) rotateZ(0deg)",
     duration: 10,
     repeat: -1, 
     ease: "none",
     onUpdate: () => slider.style.transform = sliderTransforms.value
   });
 
+// let centerPieceAdjustment = gsap.to(centerTransforms, {
+//     value: "rotateX(15deg) rotateY(0deg) rotateZ(0deg)",
+//     duration: 10,
+//     repeat: -1,
+//     ease: "none",
+//     onUpdate: () => center.style.transform = centerTransforms.value
+//   });
+
 function setSpeed(speed) {
   carouselRotationAnimation.timeScale(speed);
 }
+
 
 slider.addEventListener("mouseenter", () => { 
   if(!viewing){
@@ -75,6 +85,8 @@ document.querySelectorAll(".banner .slider .story").forEach((element) => {
   const style = window.getComputedStyle(element);
   const position = style.getPropertyValue('--position');
   const quantity = style.getPropertyValue('--quantity');
+  const blurFilter  = document.querySelector(".blur-filter");
+  const centerpiece  = document.querySelector(".banner .accents .centerpiece");
 
   element.addEventListener("click", function(event) {
     event.stopPropagation();
@@ -87,6 +99,9 @@ document.querySelectorAll(".banner .slider .story").forEach((element) => {
 
       const otherCards = [...document.querySelectorAll(".banner .slider .user")].filter(card => card !== element);
       
+      const noStory = [...document.querySelectorAll(".banner .slider .user")]
+        .filter(card => !card.classList.contains("story"));
+
       const tl = gsap.timeline()
         .to(sliderTransforms, {
           value: `rotateX(0deg) rotateY(${-(position - 1) * (360 / quantity)}deg) rotateZ(0deg)`,
@@ -104,6 +119,18 @@ document.querySelectorAll(".banner .slider .story").forEach((element) => {
         .to(otherCards, { 
           duration: 0.4, 
           filter: "blur(10px)"
+        }, '<')
+        .to(noStory, { 
+          duration: 0.4, 
+          filter: "grayscale(1) blur(6px)"
+        }, '<')
+        .to(blurFilter, { 
+          duration: 0.4, 
+          backdropFilter: "blur(6px)"
+        }, '<')
+        .to(centerpiece, { 
+          duration: 0.4, 
+          filter: "blur(6px)"
         }, '<');
       
       bioAnimation();
@@ -122,6 +149,18 @@ document.querySelectorAll(".banner .slider .story").forEach((element) => {
               scaleX: 1
             }, '<')
             .to(otherCards, { 
+              duration: 0.4, 
+              filter: "blur(0px)"
+            }, '<')
+            .to(noStory, { 
+              duration: 0.4, 
+              filter: "grayscale(1) blur(0px)"
+            }, '<')
+            .to(blurFilter, { 
+              duration: 0.4, 
+              backdropFilter: "blur(1px)"
+            }, '<')
+            .to(centerpiece, { 
               duration: 0.4, 
               filter: "blur(0px)"
             }, '<')
